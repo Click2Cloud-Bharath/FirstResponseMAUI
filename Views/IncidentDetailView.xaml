@@ -131,11 +131,11 @@
                               HeightRequest="50"
                               WidthRequest="120">
             <controls:ImageButton.IsVisible>
-                <OnPlatform
-                    x:TypeArguments="x:Boolean"
-                    Android="True"
-                    iOS="False"
-                    WinUI="False" />
+                <OnPlatform x:TypeArguments="x:Boolean">
+                    <On Platform="Android" Value="True" />
+                    <On Platform="iOS" Value="False" />
+                    <On Platform="Windows" Value="False" />
+                </OnPlatform>
             </controls:ImageButton.IsVisible>
         </controls:ImageButton>
       </StackLayout>

@@ -3,25 +3,18 @@ using CommunityToolkit.Maui;
 using FirstResponseMAUI.Services.Navigation;
 using FirstResponseMAUI.ViewModels;
 using FirstResponseMAUI.Views;
-using FirstResponseMAUI.Services.Authentication;
-using FirstResponseMAUI.Services.Cities;
-using FirstResponseMAUI.Services.Dialog;
-using FirstResponseMAUI.Services.Heatmap;
-using FirstResponseMAUI.Services.Incidents;
-using FirstResponseMAUI.Services.Responder;
-using FirstResponseMAUI.Services.Suspect;
-using FirstResponseMAUI.Services.Ticket;
 
 namespace FirstResponseMAUI;
 
 public static class MauiProgram
 {
-	public static MauiApp CreateMauiApp()
-	{
-		var builder = MauiApp.CreateBuilder();
-		builder
-			.UseMauiApp<App>()
-			.UseMauiCommunityToolkit()
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+
+        builder
+            .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
             .UseMauiMaps()
 			.ConfigureFonts(fonts =>
 			{
@@ -30,19 +23,11 @@ public static class MauiProgram
 			});
 
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
         // Services
         builder.Services.AddSingleton<INavigationService, NavigationService>();
-        // builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
-        // builder.Services.AddSingleton<ICitiesService, CitiesService>();
-        // builder.Services.AddSingleton<IDialogService, DialogService>();
-        // builder.Services.AddSingleton<IHeatmapService, HeatmapService>();
-        // builder.Services.AddSingleton<IIncidentsService, IncidentsService>();
-        // builder.Services.AddSingleton<IResponderService, ResponderService>();
-        // builder.Services.AddSingleton<ISuspectService, SuspectService>();
-        // builder.Services.AddSingleton<ITicketService, TicketService>();
 
         // ViewModels
         builder.Services.AddTransient<LoginViewModel>();
@@ -64,6 +49,6 @@ public static class MauiProgram
         builder.Services.AddTransient<PowerBIView>();
         builder.Services.AddTransient<SuspectPopupView>();
 
-		return builder.Build();
-	}
+        return builder.Build();
+    }
 }
