@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<FlyoutPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="FirstResponseMAUI.Views.MainView" 
+    xmlns:controls="clr-namespace:FirstResponseMAUI.Controls"
+    xmlns:views="clr-namespace:FirstResponseMAUI.Views"
+    FlyoutLayoutBehavior="Split">
+    <FlyoutPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="ProfileDataPanelStyle" TargetType="StackLayout">
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+            </Style>
+
+            <Style x:Key="TitleListStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="TextColor" Value="{StaticResource LightGrayColor}"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="Margin" Value="0,12,12,0"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="SubTitleListStyle" TargetType="Label" BasedOn="{StaticResource TitleListStyle}">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="TextColor" Value="{StaticResource GrayColor}"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="Margin" Value="0,6,12,0"/>
+            </Style>
+
+            <Style x:Key="PowerBIButtonStyle" TargetType="Image">
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+            
+            <Style x:Key="HeatMapButtonStyle" TargetType="controls:ToggleButton">
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="LogoutButtonStyle" TargetType="Image">
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+
+        </ResourceDictionary>
+    </FlyoutPage.Resources>
+    <FlyoutPage.Flyout>
+        <ContentPage 
+            Title=" ">
+            <Grid
+                ColumnSpacing="0"
+                RowSpacing="0"
+                BackgroundColor="{StaticResource DarkGrayColor}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="88"/>
+                    <RowDefinition Height="48"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid 
+                    Grid.Row="0"
+                    BackgroundColor="{StaticResource TerciaryDarkGray}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- PROFILE IMAGE -->
+                    <Border
+                        Grid.Column="1" 
+                        StrokeShape="RoundRectangle 20"
+                        StrokeThickness="2"
+                        Stroke="{StaticResource BlueColor}"
+                        HeightRequest="40"
+                        WidthRequest="40"
+                        VerticalOptions="Center">
+                        <Image Source="{Binding SelectedUser.UserRoleImage, Converter={StaticResource UserRoleImageConverter}}"
+                               Aspect="AspectFill" />
+                    </Border>
+                    <!-- PROFILE DATA -->
+                    <StackLayout 
+                        Grid.Column="2" 
+                        Style="{StaticResource ProfileDataPanelStyle}">
+                        <Label 
+                            Text="{Binding SelectedUser.DisplayUserName}"
+                            Style="{StaticResource TitleListStyle}"/>
+                        <Label 
+                            Text="{Binding SelectedUser.RoleName}"
+                            Style="{StaticResource SubTitleListStyle}"/>
+                    </StackLayout>
+                    <!-- POWER BI -->
+                    <Grid  
+                        Grid.Column="3"
+                        IsVisible="{Binding IsBusy, Converter={StaticResource InverseBoolConverter}}">
+                        <Image
+                            Style="{StaticResource PowerBIButtonStyle}"
+                            IsVisible="{Binding SelectedUser.RoleName, Converter={StaticResource UserRoleToBoolConverter}}"
+                            Source="PowerBI.png">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Command="{Binding PowerBICommand}"    
+                                    NumberOfTapsRequired="1" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Grid>
+                    <!-- HEATMAP -->
+                    <controls:ToggleButton 
+                        Grid.Column="4"
+                        Checked="{Binding HeatMap, Mode=TwoWay}"
+                        Style="{StaticResource HeatMapButtonStyle}">
+                        <controls:ToggleButton.CheckedImage>
+                            <OnPlatform x:TypeArguments="ImageSource">
+                                <On Platform="Android" Value="heatmap_checked.png" />
+                                <On Platform="iOS" Value="heatmap_checked.png" />
+                                <On Platform="WinUI" Value="HeatMapChecked.png" />
+                            </OnPlatform>
+                        </controls:ToggleButton.CheckedImage>
+                        <controls:ToggleButton.UnCheckedImage>
+                            <OnPlatform x:TypeArguments="ImageSource">
+                                <On Platform="Android" Value="heatmap_unchecked.png" />
+                                <On Platform="iOS" Value="heatmap_unchecked.png" />
+                                <On Platform="WinUI" Value="HeatMapUnChecked.png" />
+                            </OnPlatform>
+                        </controls:ToggleButton.UnCheckedImage>
+                    </controls:ToggleButton>
+                    <!-- LOGOUT -->
+                    <Image 
+                        Grid.Column="5"   
+                        Style="{StaticResource LogoutButtonStyle}"
+                        Source="Logout.png">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer 
+                                Command="{Binding LogoutCommand}"    
+                                NumberOfTapsRequired="1" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>
+                <Grid 
+                    Grid.Row="1"
+                    ColumnSpacing="0"
+                    RowSpacing="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <!-- INCIDENTS -->
+                    <controls:ToggleButton 
+                        Grid.Column="0"   
+                        Animate="True"
+                        Checked="{Binding IncidentToggleButtonChecked, Mode=TwoWay}"
+                        Command="{Binding SelectorCommand}"
+                        CommandParameter="Incidents">
+                        <controls:ToggleButton.CheckedImage>
+                            <OnPlatform x:TypeArguments="ImageSource">
+                                <On Platform="Android" Value="incidents_checked.png" />
+                                <On Platform="iOS" Value="incidents_checked.png" />
+                                <On Platform="WinUI" Value="IncidentsChecked.png" />
+                            </OnPlatform>
+                        </controls:ToggleButton.CheckedImage>
+                        <controls:ToggleButton.UnCheckedImage>
+                            <OnPlatform x:TypeArguments="ImageSource">
+                                <On Platform="Android" Value="incidents_unchecked.png" />
+                                <On Platform="iOS" Value="incidents_unchecked.png" />
+                                <On Platform="WinUI" Value="IncidentsUnChecked.png" />
+                            </OnPlatform>
+                        </controls:ToggleButton.UnCheckedImage>
+                    </controls:ToggleButton>
+                    <!-- RESPONDERS -->
+                    <controls:ToggleButton 
+                        Grid.Column="1" 
+                        Animate="True"
+                        Checked="{Binding ResponderToggleButtonChecked, Mode=TwoWay}" 
+                        Command="{Binding SelectorCommand}"
+                        CommandParameter="Responders">
+                        <controls:ToggleButton.CheckedImage>
+                            <OnPlatform x:TypeArguments="ImageSource">
+                                <On Platform="Android" Value="responders_checked.png" />
+                                <On Platform="iOS" Value="responders_checked.png" />
+                                <On Platform="WinUI" Value="RespondersChecked.png" />
+                            </OnPlatform>
+                        </controls:ToggleButton.CheckedImage>
+                        <controls:ToggleButton.UnCheckedImage>
+                            <OnPlatform x:TypeArguments="ImageSource">
+                                <On Platform="Android" Value="responders_unchecked.png" />
+                                <On Platform="iOS" Value="responders_unchecked.png" />
+                                <On Platform="WinUI" Value="RespondersUnChecked.png" />
+                            </OnPlatform>
+                        </controls:ToggleButton.UnCheckedImage>
+                    </controls:ToggleButton>
+                </Grid>
+                <!-- INCIDENT LIST -->
+                <Grid  
+                    Grid.Row="2"    
+                    ColumnSpacing="0"
+                    RowSpacing="0"
+                    VerticalOptions="Start"
+                    IsVisible="{Binding IncidentToggleButtonChecked}">
+                    <views:IncidentListPaneView                  
+                        BindingContext="{Binding IncidentListViewModel}"/>
+                </Grid>
+                <!-- RESPONDER LIST -->
+                <Grid  
+                    Grid.Row="2"  
+                    ColumnSpacing="0"
+                    RowSpacing="0"
+                    VerticalOptions="Start" 
+                    IsVisible="{Binding ResponderToggleButtonChecked}">
+                    <views:ResponderListPaneView   
+                        BindingContext="{Binding ResponderListViewModel}" />
+                </Grid>
+                <!-- INCIDENT DETAILS -->
+                <views:IncidentDetailView 
+                    Grid.Row="1"  
+                    Grid.RowSpan="2"
+                    BindingContext="{Binding IncidentDetailViewModel}"
+                    IsVisible="{Binding Incident, Converter={StaticResource NullToBoolConverter}, ConverterParameter=Inverse}" />
+            </Grid>
+        </ContentPage>
+    </FlyoutPage.Flyout>
+    <FlyoutPage.Detail>
+        <ContentPage>
+            <AbsoluteLayout>
+                <!-- Map -->
+                <controls:CustomMap   
+                    x:Name="FirstResponseMap"
+                    AbsoluteLayout.LayoutFlags="All"
+                    AbsoluteLayout.LayoutBounds="0, 0, 1.0, 1.0"    
+                    CurrentIncident="{Binding IncidentListViewModel.SelectedIncident, Mode=TwoWay}"     
+                    Incidents="{Binding IncidentListViewModel.IncidentList}"
+                    Responders="{Binding ResponderListViewModel.FullResponderList}"
+                    Routes="{Binding ResponderListViewModel.RouteList}"     
+                    Locations="{Binding HeatData}"
+                    MapType="{Binding MapType}"
+                    IsHeatMapVisible="{Binding HeatMap}"
+                    IsForceNavigation="{Binding ForceNavigation, Mode=TwoWay}"
+                    Intensity="1"
+                    Radius="1000"
+                    RouteColor="{StaticResource RouteColor}" 
+                    SearchPolygonColor="{StaticResource SearchPolygonColor}" />
+                <!-- Satellite map selector -->
+                <controls:ToggleButton 
+                  Animate="True"
+                  BindingContext="{x:Reference FirstResponseMap}"
+                  Command="{Binding MapTypeCommand}"
+                  Checked="false"
+                  AbsoluteLayout.LayoutBounds=".90,.95,50,50"
+                  AbsoluteLayout.LayoutFlags="PositionProportional">
+                    <controls:ToggleButton.CheckedImage>
+                        <OnPlatform x:TypeArguments="ImageSource">
+                            <On Platform="Android" Value="map_icon_Satellite_on.png" />
+                            <On Platform="iOS" Value="map_icon_Satellite_on.png" />
+                            <On Platform="WinUI" Value="map_icon_Satellite_on.png" />
+                        </OnPlatform>
+                    </controls:ToggleButton.CheckedImage>
+                    <controls:ToggleButton.UnCheckedImage>
+                        <OnPlatform x:TypeArguments="ImageSource">
+                            <On Platform="Android" Value="map_icon_Satellite_off.png" />
+                            <On Platform="iOS" Value="map_icon_Satellite_off.png" />
+                            <On Platform="WinUI" Value="map_icon_Satellite_off.png" />
+                        </OnPlatform>
+                    </controls:ToggleButton.UnCheckedImage>
+                </controls:ToggleButton>
+            </AbsoluteLayout>
+        </ContentPage>
+    </FlyoutPage.Detail>
+</FlyoutPage>

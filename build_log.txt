@@ -1,0 +1,11 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+C:\Users\bharath.chappa\.nuget\packages\microsoft.maui.resizetizer\8.0.3\buildTransitive\Microsoft.Maui.Resizetizer.After.targets(316,9): error MSB3954: Failed to compute hash for file 'Resources\Splash\splash.svg' because it does not exist or is inaccessible. [C:\Users\bharath.chappa\Desktop\First-Response\demo-first-response-online\leatest upgradedproject\FirstResponseMAUI\FirstResponseMAUI.csproj]
+
+Build FAILED.
+
+C:\Users\bharath.chappa\.nuget\packages\microsoft.maui.resizetizer\8.0.3\buildTransitive\Microsoft.Maui.Resizetizer.After.targets(316,9): error MSB3954: Failed to compute hash for file 'Resources\Splash\splash.svg' because it does not exist or is inaccessible. [C:\Users\bharath.chappa\Desktop\First-Response\demo-first-response-online\leatest upgradedproject\FirstResponseMAUI\FirstResponseMAUI.csproj]
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:02.24

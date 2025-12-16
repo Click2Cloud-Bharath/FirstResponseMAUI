@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FirstResponseMAUI.Views.LoginView"
+             xmlns:controls="clr-namespace:FirstResponseMAUI.Controls"
+             xmlns:animations="clr-namespace:FirstResponseMAUI.Animations"
+             xmlns:triggers="clr-namespace:FirstResponseMAUI.Triggers"
+             BackgroundColor="{StaticResource DarkGrayColor}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="SignInPanelStyle" TargetType="Grid">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="MinimumHeightRequest" Value="320" />
+            </Style>
+
+            <Style x:Key="SignInLogoStyle" TargetType="Image">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,48,0,48" />
+            </Style>
+
+            <Style x:Key="LoginButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource BlueColor}" />
+                <Setter Property="TextColor" Value="{StaticResource WhiteColor}" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="VerticalOptions" Value="FillAndExpand" />
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="HeightRequest" Value="48" />
+                <Setter Property="Margin" Value="0,48,0,0" />
+            </Style>
+
+            <Style x:Key="ZoneDescriptionPanelStyle" TargetType="StackLayout">
+                <Setter Property="HorizontalOptions" Value="Start" />
+                <Setter Property="VerticalOptions" Value="End" />
+                <Setter Property="Margin" Value="92,0,0,88" />
+            </Style>
+
+            <Style x:Key="ZoneDescriptionTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource WhiteColor}" />
+                <Setter Property="FontSize" Value="{StaticResource MidMediumSize}" />
+                <Setter Property="Opacity" Value="0.6" />
+            </Style>
+            
+            <animations:FadeInAnimation
+                x:Key="LoginAnimation"
+                Direction="Up"
+                Target="{x:Reference LoginPanel}">
+                <animations:FadeInAnimation.Duration>
+                    <OnPlatform x:TypeArguments="x:String">
+                        <On Platform="Android" Value="1000" />
+                        <On Platform="iOS" Value="2000" />
+                        <On Platform="WinUI" Value="1500" />
+                    </OnPlatform>
+                </animations:FadeInAnimation.Duration>
+            </animations:FadeInAnimation>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Triggers>
+        <EventTrigger Event="Appearing">
+            <triggers:BeginAnimation
+                Animation="{StaticResource LoginAnimation}" />
+        </EventTrigger>
+    </ContentPage.Triggers>
+    <Grid>
+        <!-- BACKGROUND -->
+        <Image Aspect="AspectFill" Source="Background.png" />
+        <!-- LOGIN -->
+        <ScrollView>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="240" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid
+                    x:Name="LoginPanel"
+                    Grid.Column="1"
+                    Style="{StaticResource SignInPanelStyle}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Image 
+                        Grid.Row="0"
+                        Style="{StaticResource SignInLogoStyle}"
+                        Source="login_logo.png" />
+                    <Grid Grid.Row="1" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="25"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <controls:EntryWithIcon
+                            Grid.Row="0"
+                            Placeholder="Username"
+                            Text="{Binding UserName, Mode=TwoWay}"
+                            Icon="login_username_icon.png" />
+                        <controls:EntryWithIcon
+                            Grid.Row="2"
+                            Placeholder="Password"
+                            IsPassword="True"
+                            Text="{Binding Password, Mode=TwoWay}"
+                            Icon="login_password_icon.png" />
+                        <Button 
+                            x:Name="Test"
+                            Grid.Row="3"  
+                            Text="ENTER" 
+                            Command="{Binding LoginCommand}"
+                            Style="{StaticResource LoginButtonStyle}"/>
+                        <ActivityIndicator Grid.Row="4"  
+                                           IsRunning="{Binding IsBusy}"
+                                           IsVisible="{Binding IsBusy}"
+                                           VerticalOptions="Center"
+                                           Color="{StaticResource BlueColor}"
+                                           HorizontalOptions="Center">
+                            <ActivityIndicator.WidthRequest>
+                                <OnPlatform x:TypeArguments="x:Double">
+                                    <On Platform="iOS" Value="100" />
+                                    <On Platform="Android" Value="100" />
+                                    <On Platform="WinUI" Value="400" />
+                                </OnPlatform>
+                            </ActivityIndicator.WidthRequest>
+                        </ActivityIndicator>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </ScrollView>
+
+        <StackLayout 
+            Style="{StaticResource ZoneDescriptionPanelStyle}">
+            <Label       
+                Text="{Binding City.CityName}"
+                Style="{StaticResource ZoneDescriptionTextStyle}"/>
+            <Label 
+                Text="{Binding City.Coordinates}"  
+                Style="{StaticResource ZoneDescriptionTextStyle}"/>
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer        
+                    Command="{Binding SelectCityCommand}"    
+                    NumberOfTapsRequired="1" />
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+    </Grid>
+</ContentPage>

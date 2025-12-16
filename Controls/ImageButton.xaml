@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Grid xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Name="Control"
+             x:Class="FirstResponseMAUI.Controls.ImageButton">
+
+  <Grid.GestureRecognizers>
+    <TapGestureRecognizer
+        Command="{Binding ImageButtonCommand, Source={x:Reference Control}}"
+        NumberOfTapsRequired="1" />
+  </Grid.GestureRecognizers>
+  <Image Aspect="AspectFit"
+         VerticalOptions="Center"
+         HorizontalOptions="Center"
+         Source="bg_button.png" />
+
+  <Label Text="{Binding ImageButtonText, Source={x:Reference Control}}"
+         VerticalTextAlignment="Center"
+         TextColor="{StaticResource WhiteColor}"
+         VerticalOptions="Center"
+         FontSize="14"
+         FontFamily="TitilliumRegular"
+         HorizontalOptions="Center"/>
+</Grid>

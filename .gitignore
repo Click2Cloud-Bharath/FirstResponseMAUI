@@ -1,0 +1,17 @@
+# Visual Studio
+.vs/
+
+# Build output
+bin/
+obj/
+
+# User-specific
+*.user
+*.suo
+*.cache
+*.log
+
+# MAUI / .NET
+*.appx
+*.msix
+*.msixbundle

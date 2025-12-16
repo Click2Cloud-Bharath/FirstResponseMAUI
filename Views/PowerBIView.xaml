@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="FirstResponseMAUI.Views.PowerBIView"
+             Color="Transparent"
+             CanBeDismissedByTappingOutsideOfPopup="False">
+    <toolkit:Popup.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="PowerBiHeaderStyle" TargetType="Label">
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="FontFamily" Value="TitilliumLight" />
+                <Setter Property="Margin" Value="12, 0"/>
+            </Style>
+
+            <Style x:Key="PowerBiCloseButtonStyle" TargetType="Image">
+                <Setter Property="VerticalOptions" Value="Start"/>
+                <Setter Property="Margin" Value="0,10,0,0"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+
+        </ResourceDictionary>
+    </toolkit:Popup.Resources>
+    <Grid
+        ColumnSpacing="0"
+        HeightRequest="768"
+        WidthRequest="1024"
+        HorizontalOptions="Center"
+        VerticalOptions="Center"
+        BackgroundColor="{StaticResource DarkGrayColor}"
+        RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0"
+              BackgroundColor="{StaticResource TerciaryDarkGray}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="50"/>
+            </Grid.ColumnDefinitions>
+            <Label 
+                Grid.Column="0"
+                Text="Power BI"
+                Style="{StaticResource PowerBiHeaderStyle}" />
+            <Grid
+                HorizontalOptions="End"
+                WidthRequest="50"
+                Grid.Column="1">
+                <Image
+                    HorizontalOptions="Center"
+                    WidthRequest="15"
+                    Style="{StaticResource PowerBiCloseButtonStyle}"
+                    Source="ico_close_white.png">
+                </Image>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding ClosePopupCommand}"
+                        NumberOfTapsRequired="1" />
+                </Grid.GestureRecognizers>
+            </Grid>
+        </Grid>
+        <AbsoluteLayout
+            Grid.Row="1">
+            <WebView 
+                Source="{Binding PowerBIPageURL}"
+			    AbsoluteLayout.LayoutBounds="0, 0, 1, 1"
+			    AbsoluteLayout.LayoutFlags="All" />
+        </AbsoluteLayout>
+    </Grid>
+</toolkit:Popup>

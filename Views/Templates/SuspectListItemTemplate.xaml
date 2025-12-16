@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentView 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+    x:Name="Template"
+    xmlns:controls="clr-namespace:FirstResponseMAUI.Controls"
+    x:Class="FirstResponseMAUI.Views.Templates.SuspectListItemTemplate">
+    <ContentView.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource LightGrayColor}"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+
+            <Style x:Key="TitleListStyle" TargetType="Label" BasedOn="{StaticResource LabelStyle}">
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Margin" Value="0,12,0,0" />
+            </Style>
+
+            <Style x:Key="SubTitleListStyle" TargetType="Label" BasedOn="{StaticResource LabelStyle}">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="Margin" Value="0,0,0,10" />
+            </Style>
+
+        </ResourceDictionary>
+    </ContentView.Resources>
+    <ContentView.Content>
+        <Grid 
+            HeightRequest="60">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="45" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <controls:CheckBox 
+                Grid.Column="0" 
+                IsVisible="{Binding Selectable, Source={x:Reference Template}}"
+                Marked="{Binding SuspectSelected, Mode=TwoWay}"
+                HeightRequest="20"
+                WidthRequest="20"
+                Size="20"/>
+            
+            <Border
+                Grid.Column="1"
+                StrokeShape="RoundRectangle 22.5"
+                StrokeThickness="0"
+                HeightRequest="45"
+                WidthRequest="45"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+                <Image
+                    Source="{Binding SuspectSearchImage, Converter={StaticResource SuspectImageConverter}}"
+                    Aspect="AspectFill" />
+            </Border>
+
+            <StackLayout Grid.Column="2">
+                <Label
+                    Text="{Binding Name}"
+                    Style="{StaticResource TitleListStyle}"/>
+                <Label
+                    Text="{Binding ., Converter={StaticResource SuspectDescriptionConverter}}"
+                    Style="{StaticResource SubTitleListStyle}"/>
+            </StackLayout>
+        </Grid>
+    </ContentView.Content>
+</ContentView>

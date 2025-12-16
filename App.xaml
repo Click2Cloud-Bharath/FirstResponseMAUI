@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FirstResponseMAUI.App"
+             xmlns:converters="clr-namespace:FirstResponseMAUI.Converters"
+             xmlns:effects="clr-namespace:FirstResponseMAUI.Effects">
+    <Application.Resources>
+        <ResourceDictionary>
+            
+            <!-- COLORS -->
+            <Color x:Key="WhiteColor">#ffffff</Color>
+            <Color x:Key="BlackColor">#000000</Color>
+            <Color x:Key="BlueColor">#2196F3</Color>
+            <Color x:Key="DarkGrayColor">#182227</Color>
+            <Color x:Key="TerciaryDarkGray">#263238</Color>
+            <Color x:Key="GrayColor">#B0BEC5</Color>
+            <Color x:Key="LightGrayColor">#ECEFF1</Color>
+            <Color x:Key="SecondaryDarkGray">#0D1417</Color>
+            <Color x:Key="RouteColor">#0370B5</Color>
+            <Color x:Key="SearchPolygonColor">#80808080</Color>
+
+            <!-- CONVERTERS -->
+            <converters:CitiesImageConverter x:Key="CitiesImageConverter" />
+            <converters:SuspectImageConverter x:Key="SuspectImageConverter" />
+            <converters:SuspectDescriptionConverter x:Key="SuspectDescriptionConverter" />
+            <converters:CountToBoolConverter x:Key="CountToBoolConverter" />
+            <converters:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <converters:StringToBoolConverter x:Key="StringToBoolConverter" />
+            <converters:ItemsToHeightConverter x:Key="ItemsToHeightConverter" />
+            <converters:IconsImageConverter x:Key="IconsImageConverter" />
+            <converters:StringToUpperConverter x:Key="StringToUpperConverter" />
+            <converters:UserRoleImageConverter x:Key="UserRoleImageConverter" />
+            <converters:UserRoleToBoolConverter x:Key="UserRoleToBoolConverter" />
+            <converters:NullToBoolConverter x:Key="NullToBoolConverter" />
+
+            <!-- FONT TYPES -->
+            <OnPlatform x:Key="TitilliumLight"
+                        x:TypeArguments="x:String">
+                        <On Platform="iOS" Value="TitilliumWeb-Light" />
+                        <On Platform="Android" Value="TitilliumWeb-Light.ttf" />
+                        <On Platform="WinUI" Value="TitilliumWeb-Light.ttf" />
+            </OnPlatform>
+
+            <OnPlatform x:Key="TitilliumRegular"
+                        x:TypeArguments="x:String">
+                        <On Platform="iOS" Value="TitilliumWeb-Regular" />
+                        <On Platform="Android" Value="TitilliumWeb-Regular.ttf" />
+                        <On Platform="WinUI" Value="TitilliumWeb-Regular.ttf" />
+            </OnPlatform>
+
+            <!-- FONT SIZES -->
+            <OnPlatform 
+                x:Key="LittleSize"
+                x:TypeArguments="x:Double">
+                <On Platform="iOS" Value="11" />
+                <On Platform="Android" Value="12" />
+                <On Platform="WinUI" Value="12" />
+            </OnPlatform>
+
+            <OnPlatform 
+                x:Key="MidMediumSize"
+                x:TypeArguments="x:Double">
+                <On Platform="iOS" Value="12" />
+                <On Platform="Android" Value="14" />
+                <On Platform="WinUI" Value="14" />
+            </OnPlatform>
+
+            <OnPlatform 
+                x:Key="MediumSize"
+                x:TypeArguments="x:Double">
+                <On Platform="iOS" Value="14" />
+                <On Platform="Android" Value="16" />
+                <On Platform="WinUI" Value="16" />
+            </OnPlatform>
+
+            <OnPlatform 
+                x:Key="LargeSize"
+                x:TypeArguments="x:Double">
+                <On Platform="iOS" Value="16" />
+                <On Platform="Android" Value="18" />
+                <On Platform="WinUI" Value="18" />
+            </OnPlatform>
+
+            <OnPlatform 
+                x:Key="LargerSize"
+                x:TypeArguments="x:Double">
+                <On Platform="iOS" Value="18" />
+                <On Platform="Android" Value="20" />
+                <On Platform="WinUI" Value="20" />
+            </OnPlatform>
+
+            <OnPlatform 
+                x:Key="BigSize"
+                x:TypeArguments="x:Double">
+                <On Platform="iOS" Value="20" />
+                <On Platform="Android" Value="24" />
+                <On Platform="WinUI" Value="24" />
+            </OnPlatform>
+
+            <OnPlatform 
+                x:Key="ExtraBigSize"
+                x:TypeArguments="x:Double">
+                <On Platform="iOS" Value="24" />
+                <On Platform="Android" Value="32" />
+                <On Platform="WinUI" Value="32" />
+            </OnPlatform>
+
+            <OnPlatform 
+                x:Key="HugeSize"
+                x:TypeArguments="x:Double">
+                <On Platform="iOS" Value="32" />
+                <On Platform="Android" Value="48" />
+                <On Platform="WinUI" Value="48" />
+            </OnPlatform>
+            
+            <!-- STYLES -->
+            <Style x:Key="LabelStyle"
+                   TargetType="{x:Type Label}">
+                <Setter Property="TextColor"
+                        Value="{StaticResource WhiteColor}" />
+                <Setter Property="FontSize"
+                        Value="{StaticResource MidMediumSize}" />
+                <Setter Property="FontFamily"
+                        Value="{StaticResource TitilliumLight}" />
+            </Style>
+
+            <Style x:Key="EntryStyle"
+                   TargetType="{x:Type Entry}">
+                <Setter Property="TextColor"
+                        Value="{StaticResource WhiteColor}" />
+                <Setter Property="PlaceholderColor"
+                        Value="{StaticResource WhiteColor}" />
+                <Setter Property="FontSize"
+                        Value="{StaticResource LargeSize}" />
+                <Setter Property="HorizontalOptions"
+                        Value="FillAndExpand" />
+                <Setter Property="FontFamily"
+                        Value="{StaticResource TitilliumLight}" />
+                <Setter Property="Opacity"
+                        Value="0.6" />
+                <Setter Property="effects:ApplyNativeStyleEffect.ApplyNativeStyle"
+                        Value="True" />
+            </Style>
+
+            <Style x:Key="UwpEntryStyle"
+                   TargetType="{x:Type Entry}"
+                   BasedOn="{StaticResource EntryStyle}">
+                <Setter Property="BackgroundColor" 
+                        Value="Transparent" />
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
